@@ -3,7 +3,7 @@ require 'objects/GameObject'
 Player = GameObject:extend()
 
 function Player:new(area, x, y, opts)
-  Player.super:new(area, x, y, opts)
+  Player.super.new(self, area, x, y, opts)
 
   -- physics stuff
   self.w, self.h = 12, 12
@@ -18,6 +18,11 @@ function Player:new(area, x, y, opts)
   self.max_v = 100
   self.a = 100
   
+  -- shooty
+  self.timer:every(0.24, function()
+      self:shoot()
+  end)
+  
 end
 
 function Player:update(dt)
@@ -29,7 +34,25 @@ function Player:update(dt)
   self.collider:setLinearVelocity(self.v*math.cos(self.r), self.v*math.sin(self.r))
 end
 
+function Player:shoot()
+  local d = 1.2*self.w
+  
+  --bx = ax + distance*math.cos(angle)
+  ax = 0.5*d*math.cos(self.r + math.pi/2)
+  ay = 0.5*d*math.sin(self.r + math.pi/2)
+  
+  bx = 0.5*d*math.cos(self.r - math.pi/2)
+  by = 0.5*d*math.sin(self.r - math.pi/2)
+
+  self.area:addGameObject('ShootEffect', self.x + 1.2*self.w*math.cos(self.r), self.y + 1.2*self.w*math.sin(self.r), {player = self, d = d})
+  
+  self.area:addGameObject('Projectile', self.x + 1.5*d*math.cos(self.r) + ax, self.y + 1.5*d*math.sin(self.r) + ay, {r = self.r})
+  self.area:addGameObject('Projectile', self.x + 1.5*d*math.cos(self.r) + bx, self.y + 1.5*d*math.sin(self.r) + by, {r = self.r})
+  self.area:addGameObject('Projectile', self.x + 1.5*d*math.cos(self.r), self.y + 1.5*d*math.sin(self.r), {r = self.r})
+end
+
 function Player:draw()
+  local bx = self.x + 2*self.w*math.cos(self.r)
+  local by = self.y + 2*self.w*math.sin(self.r)
   love.graphics.circle('line', self.x, self.y, self.w)
-  love.graphics.line(self.x, self.y, self.x + 2*self.w*math.cos(self.r), self.y + 2*self.w*math.sin(self.r))
 end

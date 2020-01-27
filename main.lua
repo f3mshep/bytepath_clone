@@ -6,6 +6,8 @@ M = require 'libraries/Moses/moses'
 Camera = require 'libraries/hump/camera'
 wf = require 'libraries/windfield/windfield'
 
+DEFAULT_COLOR = {1,1,1,1}
+
 function love.load()
     --load those libraries
     local object_files = {}
@@ -53,7 +55,7 @@ function love.load()
     end)
     
     -- debug mode activate!
-    if arg[#arg] == "-debug" then require("mobdebug").start() end
+    -- if arg[#arg] == "-debug" then require("mobdebug").start() end
 end
 
 function recursiveEnumerate(folder, file_list)

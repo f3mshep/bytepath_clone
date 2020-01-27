@@ -12,7 +12,9 @@ function GameObject:new(area, x, y, opts)
 end
 
 function GameObject:update(dt)
-    if self.timer then self.timer:update(dt) end
+    if self.timer then
+      self.timer:update(dt) 
+    end
     if self.collider then 
       self.x, self.y = self.collider:getPosition()
     end
