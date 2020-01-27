@@ -6,7 +6,7 @@ M = require 'libraries/Moses/moses'
 Camera = require 'libraries/hump/camera'
 wf = require 'libraries/windfield/windfield'
 
-DEFAULT_COLOR = {1,1,1,1}
+Globals = require 'globals'
 
 function love.load()
     --load those libraries

@@ -25,6 +25,7 @@ end
 
 function Projectile:die()
   self.dead = true
+  self.area:addGameObject('ProjectileDeathEffect', self.x, self.y, {color = HP_COLOR, w= 3*self.s})
 end
 
 function Projectile:draw()
